@@ -34,7 +34,7 @@ namespace WarSteroid
         const int PROCESS_VM_OPERATION = 0x0008;
         static void Main()
         {
-            Console.WriteLine("starting");
+
             var wc3baseaddr = ProcessManagement.GetModuleBaseAddress("Warcraft III","Warcraft III.exe");
 
             Process process = Process.GetProcessesByName("Warcraft III")[0];
@@ -50,7 +50,7 @@ namespace WarSteroid
             int bytesRead = 0;
             byte[] buffer = new byte[1024];
 
-            ReadProcessMemory(processHandle, 0x167652EFAB8, buffer, buffer.Length, ref bytesRead);
+            ReadProcessMemory(processHandle, 0x167652EFAB4, buffer, buffer.Length, ref bytesRead);
 
             string data = Encoding.ASCII.GetString(buffer);
             string hex_str = BitConverter.ToString(buffer);
@@ -58,6 +58,13 @@ namespace WarSteroid
 
             Console.WriteLine(Encoding.ASCII.GetString(buffer) + " (" + bytesRead.ToString() + "bytes)");
             Console.WriteLine(BitConverter.ToString(buffer) + " (" + bytesRead.ToString() + "bytes)");
+
+        }
+
+
+
+        public static void MapProcessedData(string data, string hex_data)
+        {
 
         }
 
