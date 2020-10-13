@@ -36,12 +36,19 @@ namespace WarSteroid
         {
             Console.WriteLine("starting");
             var wc3baseaddr = ProcessManagement.GetModuleBaseAddress("Warcraft III","Warcraft III.exe");
+
             Process process = Process.GetProcessesByName("Warcraft III")[0];
             IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, process.Id);
-            string hexValue = wc3baseaddr.ToString("X");
-            int bytesRead = 0;
-            byte[] buffer = new byte[1024]; //To read a 24 byte unicode string
+            RAMReader(processHandle); 
+           
+            
+        }
 
+        public static void RAMReader(IntPtr processHandle)
+        {
+
+            int bytesRead = 0;
+            byte[] buffer = new byte[1024];
 
             ReadProcessMemory(processHandle, 0x167652EFAB8, buffer, buffer.Length, ref bytesRead);
 
@@ -49,23 +56,8 @@ namespace WarSteroid
             string hex_str = BitConverter.ToString(buffer);
 
 
-            Console.WriteLine(Encoding.ASCII.GetString(buffer) +" (" + bytesRead.ToString() + "bytes)");
-            Console.WriteLine(BitConverter.ToString(buffer) +" (" + bytesRead.ToString() + "bytes)");
-
-           
-            
-        }
-
-        public static void RAMReader(IntPtr BaseAddress)
-        {
-
-         
-            //int bytesRead = 0;
-            //byte[] buffer = new byte[4];
-
-            //ReadProcessMemory( BaseAddress, 0x167652EFAB8, buffer, buffer.Length, ref bytesRead);
-            //Console.WriteLine(buffer);
-
+            Console.WriteLine(Encoding.ASCII.GetString(buffer) + " (" + bytesRead.ToString() + "bytes)");
+            Console.WriteLine(BitConverter.ToString(buffer) + " (" + bytesRead.ToString() + "bytes)");
 
         }
 
