@@ -47,7 +47,7 @@ namespace WarSteroid
 
             Process process = Process.GetProcessesByName("Warcraft III")[0];
             IntPtr processHandle = OpenProcess(PROCESS_WM_READ, false, process.Id);
-            RAMReader(processHandle);
+            //RAMReader(processHandle);
             TestVritualQEx();
 
 
@@ -82,11 +82,13 @@ namespace WarSteroid
         {
             Process process = Process.GetProcessesByName("Warcraft III")[0];
 
+
             long MaxAddress = 0x7fffffff;
             long address = 0;
+
             do
             {
-                MEMORY_BASIC_INFORMATION64 m;
+          
                 int result = VirtualQueryEx(process.Handle, (IntPtr)address, out m, (uint)Marshal.SizeOf(typeof(MEMORY_BASIC_INFORMATION64)));
                 Console.WriteLine("{0}-{1} : {2} bytes result={3}", m.BaseAddress, (uint)m.BaseAddress + (uint)m.RegionSize - 1, m.RegionSize, result);
                 if (address == (long)m.BaseAddress + (long)m.RegionSize)
